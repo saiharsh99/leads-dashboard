@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leads Dashboard</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect x='1' y='8' width='3' height='7' rx='1' fill='%232a78d6'/><rect x='6' y='4' width='3' height='11' rx='1' fill='%232a78d6'/><rect x='11' y='1' width='3' height='14' rx='1' fill='%230ca30c'/></svg>">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <div class="eyebrow">Daily lead dump</div>
+      <h1>Leads Dashboard</h1>
+    </div>
+    <div class="header-controls">
+      <select id="upload-select" title="Choose which upload to view"></select>
+      <button id="upload-btn" class="btn primary">Upload dump</button>
+    </div>
+  </header>
+
+  <!-- Upload / mapping flow -->
+  <section id="upload-panel" class="card hidden">
+    <div id="drop-step">
+      <div id="dropzone" tabindex="0">
+        <p><b>Drop your Excel or CSV file here</b> or click to browse</p>
+        <p class="note">.xlsx, .xls, or .csv · up to 20 MB · the sheet with the most rows is used</p>
+      </div>
+      <input type="file" id="file-input" accept=".xlsx,.xls,.xlsm,.csv,.txt" hidden>
+    </div>
+    <div id="map-step" class="hidden">
+      <h2>Map your columns</h2>
+      <p class="sub" id="map-meta"></p>
+      <div class="tblwrap"><table id="map-table"></table></div>
+      <details id="sample-details"><summary>Preview first rows of the file</summary>
+        <div class="tblwrap"><table id="sample-table"></table></div>
+      </details>
+      <div class="actions">
+        <button id="commit-btn" class="btn primary">Publish dashboard</button>
+        <button id="cancel-btn" class="btn">Cancel</button>
+      </div>
+    </div>
+    <p id="upload-error" class="error hidden"></p>
+  </section>
+
+  <!-- Dashboard -->
+  <div id="empty-state" class="card center hidden">
+    <p><b>No data yet.</b> Upload today's lead dump to publish the first dashboard.</p>
+  </div>
+
+  <div id="dashboard" class="hidden">
+    <p class="sub" id="range-line"></p>
+    <div class="tiles" id="kpis"></div>
+
+    <section>
+      <h2>Weekly lead flow</h2>
+      <p class="sub">Leads created per week vs. how many became qualified.</p>
+      <div class="card">
+        <div class="legend">
+          <span><span class="sw" style="background:var(--s-blue)"></span>Leads created</span>
+          <span><span class="sw" style="background:var(--good)"></span>Qualified (QL)</span>
+        </div>
+        <div class="chartbox" id="trend"></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Lead quality by source</h2>
+      <div class="card">
+        <div class="legend">
+          <span><span class="sw" style="background:var(--good)"></span>Qualified</span>
+          <span><span class="sw" style="background:var(--s-blue)"></span>Open</span>
+          <span><span class="sw" style="background:var(--lost)"></span>Lost</span>
+        </div>
+        <div class="chartbox" id="sources"></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Projects</h2>
+      <div class="card tblwrap"><table id="projects-table"></table></div>
+    </section>
+
+    <section>
+      <h2>Why leads are lost</h2>
+      <div class="card"><div class="chartbox" id="lost"></div></div>
+    </section>
+
+    <section>
+      <h2>Manager performance</h2>
+      <div class="card tblwrap"><table id="managers-table"></table></div>
+    </section>
+
+    <section>
+      <h2>Campaign scorecard</h2>
+      <p class="sub">Campaigns with 10+ leads.</p>
+      <div class="card tblwrap"><table id="campaigns-table"></table></div>
+    </section>
+
+    <section>
+      <h2>Upload history</h2>
+      <div class="card tblwrap"><table id="uploads-table"></table></div>
+    </section>
+  </div>
+
+  <footer>Values of <code>0</code> in the dump are treated as blank. Qualification labels are bucketed into QL / Lost / Open.</footer>
+</div>
+<script src="/static/app.js"></script>
+</body>
+</html>
